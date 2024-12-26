@@ -1,0 +1,133 @@
+* {
+  /* border-radius: 15; */
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #cdd6f4;
+}
+
+window#waybar {
+  background: linear-gradient(
+    to right top,
+    rgba(17, 17, 27, 0.65),
+    rgba(180, 190, 254, 0.65)
+  );
+  border-bottom: 1px solid rgba(245, 224, 220, 0.65);
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#custom-spotify,
+#mode,
+#backlight {
+  padding: 0 0.8em;
+  margin: 0.5em;
+  border: 2px solid rgba(245, 224, 220, 0.65);
+  border-radius: 2em;
+  box-shadow: 5px 3px 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* custom center icons */
+#custom-folder,
+#custom-roblox,
+#custom-github,
+#custom-centerlogo,
+#custom-email {
+  font-size: 15px;
+  padding: 0 0.2em;
+  margin: 0 0.2em;
+}
+
+#custom-centerlogo {
+  font-size: 2em;
+  border: 1px solid rgba(245, 224, 220, 0.65);
+  border-radius: 0.2em;
+  border-top: none;
+  border-bottom: none;
+}
+
+/* hyprland/workspaces */
+
+@keyframes active_pane {
+  from {
+    border-top: 2px solid rgba(245, 224, 220, 0);
+  }
+  25% {
+    border-top: 2px solid rgba(245, 224, 220, 0.15);
+  }
+  50% {
+    border-top: 2px solid rgba(245, 224, 220, 0.3);
+  }
+  75% {
+    border-top: 2px solid rgba(245, 224, 220, 0.5);
+  }
+  to {
+    border-top: 2px solid rgba(245, 224, 220, 0.65);
+  }
+}
+
+#workspaces button.active {
+  animation-name: active_pane;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* mediaplayer and spotify */
+#custom-spotify {
+  color: #a6e3a1;
+}
+
+/* pulseaudio */
+
+#pulseaudio.muted {
+  color: #f38ba8;
+}
+
+#pulseaudio.bluetooth {
+  color: #74c7ec;
+}
+
+/* network */
+
+#network.disconnected {
+  color: #f38ba8;
+}
+
+/* battery */
+
+@keyframes blink_critical {
+  to {
+    background-color: #d20f39;
+    color: #11111b;
+  }
+}
+
+#battery.charging {
+  color: #a6e3a1;
+}
+
+#battery.warning:not(.charging) {
+  color: #fab387;
+}
+
+#battery.critical:not(.charging) {
+  animation-name: blink_critical;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#battery.critical:not(.charging) {
+  animation-name: blink_critical;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}

@@ -1,0 +1,161 @@
+{
+    "layer": "top",
+    "position": "top",
+    // "margin-top": 10,
+    // "margin-left": 10,
+    // "margin-right": 10,
+    "height": 40,
+    // "width": 1650, (set for large screen)
+    "modules-left": ["hyprland/workspaces", "custom/spotify"],
+    "modules-center": ["custom/roblox", "custom/github", "custom/centerlogo", "custom/email", "custom/folder"],
+    "modules-right": [
+        "pulseaudio",   "backlight",    "network",
+        "cpu",          "memory",       "battery",
+        "clock"
+    ],
+    // modules left
+    "hyprland/workspaces": {
+        "format": "{id} {icon} {windows}",
+        "window-rewrite-default": "",
+        "window-rewrite": {
+            "class<kitty>": " ",
+            "class<vesktop>": "󰙯",
+            "class<.*google.*>": "",
+        },
+        "format-icons": {
+            "active": "󰄛",
+            "default": "",
+            "visible": "",
+        }
+    },
+    "custom/spotify": {
+        "escape": true,
+        "return-type": "json",
+        "max-length": 40,
+        "on-click": "playerctl play-pause",
+        "smooth-scrolling-threshold": 3, // This value was tested using a trackpad, it should be lowered if using a mouse.
+        "on-scroll-up" : "playerctl next",
+        "on-scroll-down" : "playerctl previous",
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null | jq --unbuffered --compact-output", 
+        "exec-if": "pgrep spotify"
+    },
+    // modules center
+    "custom/roblox": {
+        "format": "𝙍",
+        "on-click": "dunstify 'Opening ROBLOX';flatpak run org.vinegarhq.Sober",
+        "on-click-right": "dunstify 'Opening ROBLOX Studio';$HOME/scripts/roblox_studio.sh",
+        "tooltip-format": "Left click: ROBLOX\nRight click: ROBLOX Studio"
+    },
+    "custom/github": {
+        "format": "󰊤",
+        "on-click": "dunstify 'Opening github';xdg-open https://github.com/sebvu",
+        "tooltip-format": "Github"
+    },
+    "custom/centerlogo": {
+        "format": "§",
+        "tooltip-format": "sebarch"
+    },
+    "custom/email": {
+        "format": "󰇮",
+        "on-click": "dunstify 'Opening gmail';xdg-open  https://mail.google.com/mail/u/0/#inbox",
+        "tooltip-format": "Gmail"
+    },
+    "custom/folder": {
+        "format": "󰉋",
+        "on-click": "dunstify 'Opening file manager';dolphin",
+        "tooltip-format": "Folder Manager"
+    },
+    // modules right
+    "pulseaudio": {
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": " ",
+        "format-icons": {
+            "headphones": " ",
+            "handsfree": "󱠡 ",
+            "headset": "󰋎 ",
+            "phone": " ",
+            "portable": " ",
+            "car": " ",
+            "default": [" ", " "]
+        },
+        "on-click": "pavucontrol"
+    },
+    "backlight": {
+        "format": "{percent}% {icon}",
+        "states": [0,50],
+        "format-icons": [" ", " "]
+    },
+    "network": {
+        // "interface": "wlp2s0",
+        "max-length": 30,
+        "format": "{ifname}",
+        "format-wifi": "{essid} ({signalStrength}%)  ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} 󰊗 ",
+        "format-disconnected": "Disconnected ⚠ ", //An empty format will hide the module.
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗 ",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%)  ",
+        "tooltip-format-ethernet": "{ifname}  ",
+        "tooltip-format-disconnected": "Disconnected",
+        "on-click": "~/scripts/connect.sh"
+    },
+    "cpu": {
+        "interval": 1,
+        "max-length": 20,
+        "format": "{usage}% {icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+        "format-icons": [
+            "<span color='#69ff94'>▁</span>", // green
+            "<span color='#2aa9ff'>▂</span>", // blue
+            "<span color='#f8f8f2'>▃</span>", // white
+            "<span color='#f8f8f2'>▄</span>", // white
+            "<span color='#ffffa5'>▅</span>", // yellow
+            "<span color='#ffffa5'>▆</span>", // yellow
+            "<span color='#ff9977'>▇</span>", // orange
+            "<span color='#dd532e'>█</span>"  // red
+        ]
+    },
+    "memory": {
+        "interval": 30,
+        "format": "{}% ",
+        "max-length": 10,
+        "tooltip-format": "{used:0.1f}G/{total:0.1f}G"
+    },
+    "battery": {
+        "bat": "BAT0",
+        "interval": 10,
+        "states": {
+            "warning": 30,
+            "critical": 12,
+        },
+        "format": "{capacity}% {icon}",
+        "format-icons": [" ", " ", " ", " ", " "],
+        "on-click": "killall wlogout;wlogout"
+    },
+    "clock": {
+        // "timezone": "Houston/America",
+        "format": "{:%H:%M}  ",
+        // "format-alt": "{:%A, %B %d, %Y (%R)}",
+        "format-alt": "{:%A, %m-%d-%Y (%R)}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode"          : "year",
+            "mode-mon-col"  : 3,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions":  {
+            "on-click-right": "mode",
+            "on-scroll-up": "tz_up",
+            "on-scroll-down": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        }
+    },
+}

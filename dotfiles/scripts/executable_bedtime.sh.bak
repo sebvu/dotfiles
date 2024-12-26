@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# This script will run every 10 minutes. Will check if it is between 12:30 AM and 6:00 AM.
+# If it is between the set times, then a notification will be sent out that the computer will be auto-shutdown in 30 seconds.
+
+
+bedtime_check () {
+    TIME=$(date +%H%M)
+
+    # validate $TIME is formatted correctly
+    validate_time "$TIME"
+
+    if [[ "$TIME" -ge "0030" && "$TIME" -le "0600" ]]; then
+        return 1  
+    else
+        return 0
+    fi
+}
+
+shutdown_timer () {
+    for timer in {30..1}
+    do
+        notify-send -t 2000 -r 1234 -u critical "BEDTIME" "You should be asleep? Shutting down in $timer seconds."
+        sleep 1 
+    done
+}
+
+validate_time () {
+    if [[ ${#1} -ne 4 ]]; then
+        # Exit code 1: time is not defined properly within 4 values
+        notify-send -t 5001 -r 1235 -u critical "BEDTIME ERROR 1" "Time is not defined properly within 4 values: $TIME"
+        exit 1
+    elif ! [[ $1 =~ ^[0-9]+$ ]]; then
+        # If expression inside is true, then it contains extraneous values (hence !)
+        # Exit code 2: extraneous values found
+        notify-send -t 5000 -r 1235 -u critical "BEDTIME ERROR 2" "Extraneous values defined: $TIME"
+        exit 2
+    fi
+}
+
+notify-send -t 2000 -r 3843 "BEDTIME" "running"
+
+while true 
+do
+    bedtime_check
+
+    if [[ "$?" -eq 1 ]]; then
+        shutdown_timer
+        systemctl poweroff
+        exit 0
+    else
+        sleep 300
+    fi
+done
