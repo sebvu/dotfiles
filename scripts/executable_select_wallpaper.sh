@@ -8,8 +8,7 @@ TRANSITION_TYPE="outer"
 WALLPAPER_DIR="$HOME/Pictures/wallpapers"
 
 # Use rofi to select an image
-# SELECTED_IMAGE=$(ls "$WALLPAPER_DIR" | rofi -dmenu -i -p "Select Wallpaper" -theme "$HOME"/.cache/wal/colors-rofi-dark.rasi)
-SELECTED_IMAGE=$(ls "$WALLPAPER_DIR" | rofi -dmenu -i -p "Select Wallpaper")
+SELECTED_IMAGE=$(ls ~/Pictures/wallpapers | while read A ; do  echo -en "$A\x00icon\x1f~/Pictures/wallpapers/$A\n"; done | rofi -dmenu -theme "$HOME"/.config/rofi/wallpaper-switcher.rasi)
 
 # If an image was selected, set it as the wallpaper
 if [ -n "$SELECTED_IMAGE" ]; then
