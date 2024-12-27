@@ -107,7 +107,7 @@ source $ZSH/oh-my-zsh.sh
 # automatic cpp code executer
 # (run) will run code in the current directory for cpp
 # Path to your oh-my-zsh installation.
-ZSH=/usr/share/oh-my-zsh/
+# ZSH=/usr/share/oh-my-zsh/
 
 # Path to powerlevel10k theme
 # source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
