@@ -1,0 +1,267 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+ 
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vi'
+# else
+  # export EDITOR='vim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+#  alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+# automatic cpp code executer
+# (run) will run code in the current directory for cpp
+# Path to your oh-my-zsh installation.
+ZSH=/usr/share/oh-my-zsh/
+
+# Path to powerlevel10k theme
+# source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+
+# List of plugins used
+plugins=()
+# source $ZSH/oh-my-zsh.sh
+
+# In case a command is not found, try to find the package that has it
+function command_not_found_handler {
+    local purple='\e[1;35m' bright='\e[0;1m' green='\e[1;32m' reset='\e[0m'
+    printf 'zsh: command not found: %s\n' "$1"
+    local entries=( ${(f)"$(/usr/bin/pacman -F --machinereadable -- "/usr/bin/$1")"} )
+    if (( ${#entries[@]} )) ; then
+        printf "${bright}$1${reset} may be found in the following packages:\n"
+        local pkg
+        for entry in "${entries[@]}" ; do
+            local fields=( ${(0)entry} )
+            if [[ "$pkg" != "${fields[2]}" ]] ; then
+                printf "${purple}%s/${bright}%s ${green}%s${reset}\n" "${fields[1]}" "${fields[2]}" "${fields[3]}"
+            fi
+            printf '    /%s\n' "${fields[4]}"
+            pkg="${fields[2]}"
+        done
+    fi
+    return 127
+}
+
+# Detect the AUR wrapper
+if pacman -Qi yay &>/dev/null ; then
+   aurhelper="yay"
+elif pacman -Qi paru &>/dev/null ; then
+   aurhelper="paru"
+fi
+
+function in {
+    local -a inPkg=("$@")
+    local -a arch=()
+    local -a aur=()
+
+    for pkg in "${inPkg[@]}"; do
+        if pacman -Si "${pkg}" &>/dev/null ; then
+            arch+=("${pkg}")
+        else 
+            aur+=("${pkg}")
+        fi
+    done
+
+    if [[ ${#arch[@]} -gt 0 ]]; then
+        sudo pacman -S "${arch[@]}"
+    fi
+
+    if [[ ${#aur[@]} -gt 0 ]]; then
+        ${aurhelper} -S "${aur[@]}"
+    fi
+}
+
+
+
+# Helpful aliases
+# alias  c='clear' # clear terminal
+# alias  l='eza -lh  --icons=auto' # long list
+# alias ls='eza -1   --icons=auto' # short list
+# alias ll='eza -lha --icons=auto --sort=name --group-directories-first' # long list all
+# alias ld='eza -lhD --icons=auto' # long list dirs
+# alias lt='eza --icons=auto --tree' # list folder as tree
+# alias un='$aurhelper -Rns' # uninstall package
+# alias up='$aurhelper -Syu' # update system/package/aur
+# alias pl='$aurhelper -Qs' # list installed package
+# alias pa='$aurhelper -Ss' # list availabe package
+# alias pc='$aurhelper -Sc' # remove unused cache
+# alias po='$aurhelper -Qtdq | $aurhelper -Rns -' # remove unused packages, also try > $aurhelper -Qqd | $aurhelper -Rsu --print -
+# alias vc='code' # gui code editor
+alias spt='spotify_player'
+# alias gamma='gammastep -l 30.210740:-95.4256170 -t 6500:4000'
+alias cd='z'
+alias view='kitten icat'
+alias v='nvim'
+
+# Handy change dir shortcuts
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
+alias open='xdg-open'
+alias vesktop='vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland'
+alias powermanager='sudo python $HOME/scripts/PowerManager.py'
+alias roblox='flatpak run org.vinegarhq.Sober'
+alias robloxstudio='WINEPREFIX="~/.var/app/org.vinegarhq.Vinegar/data/vinegar/prefixes/studio" GAMEID=0 PROTONPATH=GE-Proton umu-run "$(find ~/.var/app/org.vinegarhq.Vinegar/data/vinegar/versions/ -name "RobloxStudioBeta.exe")"'
+alias vinegaredit='nvim ~/.var/app/org.vinegarhq.Vinegar/config/vinegar/config.toml'
+alias wlflag='--enable-features=UseOzonePlatform --ozone-platform=wayland'
+
+# Always mkdir a path (this doesn't inhibit functionality to make a single dir)
+alias mkdir='mkdir -p'
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ----------------  tomfoolery section, please disregard
+
+# load cache image
+
+
+CACHE_IMAGE="$(cat $HOME/.cache/swww/eDP-1)"
+
+wal -i $CACHE_IMAGE &>/dev/null
+
+# img_generate
+view --align left /home/sebvu/Pictures/savedscreenshots/mochicat.jpg
+
+# random text generator
+LS_COLORS=$LS_COLORS:'di=1;36:'
+export LS_COLORS
+
+REDCOLOR='\033[1;31m'
+LIGHTCYANCOLOR='\033[1;36m'
+PURPLECOLOR='\033[1;35m'
+NC='\033[0m' # Resetter
+BOLD='\033[1m'
+SIGNATURE='\033[1;31m - \033[1;36m'
+
+startupmessage=(
+    "An idiot admires complexity. A genius admires simplicity.${SIGNATURE}Terry A. Davis"
+    # "I${REDCOLOR} LOVE${LIGHTCYANCOLOR} GABY${NC}${PURPLECOLOR} AHHHH!! 💗"
+    # "I have ${REDCOLOR}five${PURPLECOLOR} beautiful pets, ${LIGHTCYANCOLOR}Latte, Koko, Maya, Nori, and${LIGHTCYANCOLOR} Sushi. 💗"
+    # "lowkey miss playing roblox${SIGNATURE}Jester"
+    # "my family is the BEST!!${SIGNATURE}Jester"
+    "I am become death, the destroyer of worlds.${SIGNATURE}J. Robert Oppenheimer"
+    # "Curiosity may have killed the cat, but satisfaction brought it back.${SIGNATURE}Sir Thomas Overbury"
+    # "When the mouse laughs at the cat, there's a hole nearby.${SIGNATURE}Nigerian Proverb"
+    # "In ancient times cats were worshipped as gods; they have not forgotten this.${SIGNATURE}Terry Pratchett"
+    "Happiness is a warm cat.${SIGNATURE}Charles Bukowski"
+    "Gaby is a LITTLE too obsessed with Koko${SIGNATURE}Jester S."
+    "Jester is a professional Koko hater${SIGNATURE}Gaby C."
+    "The reason I try so hard is the fear of not being the best version I could be."
+    "I love jesters bestie ${SIGNATURE}Gaby C."
+    "filler (ignoring the last one for some odd reason"
+)
+
+while [ -z "$randommessage" ]; do
+    randomindex=$((RANDOM % ${#startupmessage[@]} ))
+    randommessage=${startupmessage[$randomindex]}
+done
+
+printf "${BOLD}${PURPLECOLOR}${randommessage}\n${NC}"  
+
+# evals/exports
+
+export BROWSER=firefox
+
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

@@ -1,0 +1,41 @@
+/* Named Colors */
+body {
+  background-color: white;
+  color: black;
+}
+
+/* RGB Colors */
+.header {
+  background-color: rgb(255, 0, 0); /* Red */
+  color: rgb(0, 255, 0); /* Green */
+}
+
+/* RGBA Colors */
+.button {
+  background-color: rgba(0, 0, 255, 0.5); /* Semi-transparent Blue */
+  border: 1px solid rgba(255, 255, 0, 0.7); /* Semi-transparent Yellow */
+}
+
+/* HSL Colors */
+.sidebar {
+  background-color: hsl(120, 100%, 50%); /* Bright Green */
+  color: hsl(240, 100%, 50%); /* Bright Blue */
+}
+
+/* Hexadecimal Colors */
+.footer {
+  background-color: #ff5733; /* Orange-Red */
+  color: #33ff57; /* Lime Green */
+}
+
+/* Mixed Example */
+.card {
+  background: linear-gradient(
+    to right,
+    rgba(255, 0, 0, 0.5),
+    hsl(200, 50%, 50%),
+    #123abc,
+    bisque
+  );
+  border: 2px solid black;
+}
