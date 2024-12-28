@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# TRANSITION_TYPE="wipe"
 TRANSITION_TYPE="outer"
-# TRANSITION_TYPE="random"
 
 # Directory containing wallpapers
 WALLPAPER_DIR="$HOME/Pictures/wallpapers"
@@ -12,9 +10,16 @@ SELECTED_IMAGE=$(ls ~/Pictures/wallpapers | while read A ; do  echo -en "$A\x00i
 
 # If an image was selected, set it as the wallpaper
 if [ -n "$SELECTED_IMAGE" ]; then
+
+    wal -i "$WALLPAPER_DIR/$SELECTED_IMAGE"
+
+    pywal-discord
+    pywalfox update
+
     swww img "$WALLPAPER_DIR/$SELECTED_IMAGE" \
-    --transition-type=$TRANSITION_TYPE \
-    --transition-duration=2\
+        --transition-type $TRANSITION_TYPE \
+        --transition-duration 2
+
 
     # swww img $WALLPAPER_DIR/$SELECTED_IMAGE \
 #     --transition-bezier .43,1.19,.4 \
@@ -24,6 +29,5 @@ if [ -n "$SELECTED_IMAGE" ]; then
 #     --transition-pos "$(hyprctl cursorpos)"
 
 
-    wal -i "$WALLPAPER_DIR/$SELECTED_IMAGE"
     convert "$WALLPAPER_DIR/$SELECTED_IMAGE" -blur 0x16 "$HOME/.cache/blurred_wallpaper.png"
 fi
