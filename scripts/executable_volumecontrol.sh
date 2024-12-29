@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 
 output () {
-    SEND="dunstify -t 1000 -r 2000 -u normal -i "$HOME/.config/dunst/icons/$1-$(echo "$2" | tr '[:upper:]' '[:lower:]').png""
+    SEND="dunstify -t 1000 -r 2000 -u normal -i "$HOME/.config/dunst/icons/vol/vol-$(echo "$3" | sed 's/%//').svg""
+    SEND_MUTESTATUS="dunstify -t 1000 -r 2100 -u normal -i "$HOME/.config/dunst/icons/vol/speaker-$(echo "$2" | tr '[:upper:]' '[:lower:]').svg""
+    SEND_SPEAKERSTATUS="dunstify -t 1000 -r 2200 -u normal -i "$HOME/.config/dunst/icons/vol/mic-$(echo "$2" | tr '[:upper:]' '[:lower:]').svg""
 
     case ${1} in 
         master)
-            $SEND "Volume Toggled $2"
+            $SEND_MUTESTATUS "Volume Toggled $2"
             ;;
         volume)
             $SEND "Volume $2" "$3"
             ;;
         capture)
             if [ "${2}" = "ON" ]; then
-                $SEND "Microphone $2"
+                $SEND_SPEAKERSTATUS "Microphone $2"
             elif [ "${2}" = "OFF" ]; then
-                $SEND "Microphone $2"
+                $SEND_SPEAKERSTATUS "Microphone $2"
             fi
             ;;
         *)
@@ -29,6 +31,7 @@ get_volume () {
 
 check_volume_direction () {
     if [ "${1}" = "i" ]; then
+        increment_amount=$(( 5 - (brightness % 5) ))
         amixer set Master 5%+
         output "volume" "UP" "$(get_volume)"
     elif [ "${1}" = "d" ]; then

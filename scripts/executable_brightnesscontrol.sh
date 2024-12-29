@@ -2,13 +2,13 @@
 
 # Pull current brightness
 get_brightness() {
-    brightnessctl -m | grep -o '[0-9]\+%' | head -c-2
+    brightnessctl -m | grep -oP '\d+(?=)%' | head -c-2 
 }
 
 # Send notification
 send_notification() {
     brightness=$(get_brightness)
-    dunstify -i "$HOME/.config/dunst/icons/brightness-$1.png" -t 1000 -r 2593 -u normal "Brightness $(echo "$1" | tr '[:lower:]' '[:upper:]')" "${brightness}%"
+    dunstify -i "$HOME/.config/dunst/icons/vol/vol-${brightness}.svg" -t 1000 -r 2593 -u normal "Brightness $(echo "$1" | tr '[:lower:]' '[:upper:]')" "${brightness}%"
 }
 
 # Error sent
@@ -19,7 +19,11 @@ print_error() {
 
 case $1 in
     i)  # increase the backlight
-        brightnessctl set +5%
+        brightness=$(get_brightness)
+        # dunstify ${brightness}
+        increment_amount=$(( 5 - (brightness % 5) ))
+
+        brightnessctl set ${increment_amount}%+
         send_notification up
         ;;
     d)  # decrease the backlight
@@ -28,7 +32,13 @@ case $1 in
             brightnessctl set 5%
         else
             # decrease the backlight by 5% otherwise
-            brightnessctl set 5%-
+            brightness=$(get_brightness)
+            increment_amount=$(( brightness % 5 ))
+            if [[ ${increment_amount} -eq 0 ]] ; then
+                brightnessctl set 5%-
+            else
+                brightnessctl set ${increment_amount}%-
+            fi
         fi
         send_notification down
         ;;

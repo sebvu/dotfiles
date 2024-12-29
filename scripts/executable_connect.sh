@@ -169,7 +169,7 @@ speedtest () {
 }
 
 neverssl () {
-    google-chrome-stable http://neverssl.com
+    xdg-open http://neverssl.com
 
     cases
 }
