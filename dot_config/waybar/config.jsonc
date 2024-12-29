@@ -62,7 +62,7 @@
     },
     "custom/folder": {
         "format": "󰉋",
-        "on-click": "dunstify 'Opening file manager';dolphin",
+        "on-click": "dunstify 'Opening file manager';nemo",
         "tooltip-format": "Folder Manager"
     },
     // modules right
