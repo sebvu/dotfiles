@@ -182,17 +182,9 @@ function in {
 # alias po='$aurhelper -Qtdq | $aurhelper -Rns -' # remove unused packages, also try > $aurhelper -Qqd | $aurhelper -Rsu --print -
 # alias vc='code' # gui code editor
 alias spt='spotify_player'
-# alias gamma='gammastep -l 30.210740:-95.4256170 -t 6500:4000'
 alias cd='z'
 alias view='kitten icat'
 alias v='nvim'
-
-# Handy change dir shortcuts
-alias ..='cd ..'
-alias ...='cd ../..'
-alias .3='cd ../../..'
-alias .4='cd ../../../..'
-alias .5='cd ../../../../..'
 alias open='xdg-open'
 alias vesktop='vesktop --enable-features=UseOzonePlatform --ozone-platform=wayland'
 alias powermanager='sudo python $HOME/scripts/PowerManager.py'
@@ -200,6 +192,14 @@ alias roblox='flatpak run org.vinegarhq.Sober'
 alias robloxstudio='WINEPREFIX="~/.var/app/org.vinegarhq.Vinegar/data/vinegar/prefixes/studio" GAMEID=0 PROTONPATH=GE-Proton umu-run "$(find ~/.var/app/org.vinegarhq.Vinegar/data/vinegar/versions/ -name "RobloxStudioBeta.exe")"'
 alias vinegaredit='nvim ~/.var/app/org.vinegarhq.Vinegar/config/vinegar/config.toml'
 alias wlflag='--enable-features=UseOzonePlatform --ozone-platform=wayland'
+alias fastfetch='fastfetch --logo ~/.config/fastfetch/logo.txt'
+
+# Handy change dir shortcuts
+alias ..='cd ..'
+alias ...='cd ../..'
+alias .3='cd ../../..'
+alias .4='cd ../../../..'
+alias .5='cd ../../../../..'
 
 # Always mkdir a path (this doesn't inhibit functionality to make a single dir)
 alias mkdir='mkdir -p'
@@ -217,7 +217,7 @@ CACHE_IMAGE="$(cat $HOME/.cache/swww/eDP-1)"
 wal -i $CACHE_IMAGE &>/dev/null
 
 # img_generate
-view --align left /home/sebvu/Pictures/savedscreenshots/mochicat.jpg
+# view --align left /home/sebvu/Pictures/savedscreenshots/mochicat.jpg
 
 # random text generator
 LS_COLORS=$LS_COLORS:'di=1;36:'
