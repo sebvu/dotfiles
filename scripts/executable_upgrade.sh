@@ -97,7 +97,7 @@ BOLD_CYAN="\033[1;36m"
 BOLD_RED="\033[1;31m"
 UPDATES_AVAILABLE=true
 # Open new terminal emulator
-fastfetch
+fastfetch --logo ~/.config/fastfetch/logo.txt
 
 # Awesome header!!
 echo -e "\n${BOLD_RED}🔥 Blazingly Fast Updater 🚀 \n\n- made by sebvu, my first bash script!${NC}\n"
