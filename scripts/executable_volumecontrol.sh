@@ -31,8 +31,6 @@ get_volume () {
 
 check_volume_direction () {
     if [ "${1}" = "i" ]; then
-        increment_amount=$(( 5 - (brightness % 5) ))
-        amixer set Master 5%+
         output "volume" "UP" "$(get_volume)"
     elif [ "${1}" = "d" ]; then
         amixer set Master 5%-
