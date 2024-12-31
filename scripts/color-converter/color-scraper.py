@@ -20,7 +20,7 @@ from palette.catppuccin_mocha import PALETTE
 # from palette import (palette name) as palette
 
 # optional, remove if you intend on manually finding file path
-# DEFINED_FILE = "../../.config/gtk-3.0/gtk.css"
+DEFINED_FILE = ""
 
 def findAllColorsFromFile(file) -> None:
     """
